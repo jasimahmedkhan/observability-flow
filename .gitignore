@@ -1,2 +1,39 @@
-/.idea/
-/observability-flow.sln.DotSettings.user
+# IDE / user-specific files
+.idea/
+.vs/
+*.DotSettings.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET build output
+[Bb]in/
+[Oo]bj/
+artifacts/
+
+# Tests, coverage, and logs
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.log
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+docker-compose.override.yml
+docker-compose.override.yaml
+secrets/
+
+# Certificates and private keys
+*.pfx
+*.p12
+*.pem
+*.key
+*.snk
+*.jks
+*.keystore
