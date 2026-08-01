@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 4s
+  evaluation_interval: 15s
+
+storage:
+  exemplars:
+    max_exemplars: 100000
+
+scrape_configs:
+  - job_name: checkout-service
+    honor_labels: true
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+          - otel-collector:9464
+
+remote_write:
+  - name: mimir
+    url: http://mimir:9009/api/v1/push
+    send_exemplars: true
+    queue_config:
+      capacity: 10000
+      max_shards: 10
+      min_shards: 1
+      max_samples_per_send: 2000
+      batch_send_deadline: 5s
