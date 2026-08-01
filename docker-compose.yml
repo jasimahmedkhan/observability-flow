@@ -138,7 +138,18 @@ services:
     networks:
       - observability
 
+  checkout-service:
+    build:
+      context: ./observability-flow
+      dockerfile: Dockerfile
+    image: checkout-service:local
+    ports:
+      - "5000:8080"
 
+    depends_on:
+      - otel-collector
+    networks:
+      - observability
 
 networks:
   observability:
