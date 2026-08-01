@@ -91,6 +91,24 @@ services:
     networks:
       - observability
 
+  tempo:
+    image: grafana/tempo:latest
+    user: "0:0"
+    command:
+      - -config.file=/etc/tempo/config.yml
+    depends_on:
+      minio-init:
+        condition: service_completed_successfully
+    ports:
+      - "3200:3200"
+    expose:
+      - "4317"
+      - "4318"
+    volumes:
+      - ./tempo:/etc/tempo:ro
+      - tempo-data:/var/tempo
+    networks:
+      - observability
 
 
 networks:
