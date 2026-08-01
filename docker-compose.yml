@@ -145,7 +145,11 @@ services:
     image: checkout-service:local
     ports:
       - "5000:8080"
-
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      OTEL_SERVICE_NAME: checkout-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_METRIC_EXPORT_INTERVAL: "5000"
     depends_on:
       - otel-collector
     networks:
