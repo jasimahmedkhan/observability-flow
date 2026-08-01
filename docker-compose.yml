@@ -75,6 +75,22 @@ services:
     networks:
       - observability
 
+  loki:
+    image: grafana/loki:latest
+    user: "0:0"
+    command:
+      - -config.file=/etc/loki/config.yml
+    depends_on:
+      minio-init:
+        condition: service_completed_successfully
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki:/etc/loki:ro
+      - loki-data:/var/loki
+    networks:
+      - observability
+
 
 
 networks:
