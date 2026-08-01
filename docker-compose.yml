@@ -46,7 +46,40 @@ services:
     networks:
       - observability
 
+  prometheus:
+    image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --enable-feature=exemplar-storage
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    networks:
+      - observability
 
+  mimir:
+    image: grafana/mimir:latest
+    command:
+      - -config.file=/etc/mimir/mimir.yaml
+    depends_on:
+      minio-init:
+        condition: service_completed_successfully
+    expose:
+      - "9009"
+    volumes:
+      - ./mimir:/etc/mimir:ro
+      - mimir-data:/tmp/mimir
+    networks:
+      - observability
+
+
+
+networks:
+  observability:
+    driver: bridge
 
 volumes:
   minio-data:
