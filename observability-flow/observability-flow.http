@@ -1,0 +1,38 @@
+@observability_flow_HostAddress = http://localhost:5286
+
+GET {{observability_flow_HostAddress}}/health
+Accept: application/json
+
+###
+
+GET {{observability_flow_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json
+
+###
+
+POST {{observability_flow_HostAddress}}/checkout
+Content-Type: application/json
+
+{
+  "cartId": "cart-123",
+  "itemCount": 2
+}
+
+> {%
+    client.global.set("orderId", response.body.orderId);
+%}
+
+###
+
+GET {{observability_flow_HostAddress}}/checkout
+Accept: application/json
+
+###
+
+GET {{observability_flow_HostAddress}}/checkout/{{orderId}}
+Accept: application/json
+
+###
+
+DELETE {{observability_flow_HostAddress}}/checkout/{{orderId}}
+Accept: application/json
